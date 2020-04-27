@@ -6,7 +6,7 @@ import (
 	"macqueen_users/application"
 	"macqueen_users/domain/entity"
 	"net/http"
-	"strconv"
+	"strings"
 )
 
 type UserHandlerInterface interface {
@@ -54,14 +54,10 @@ func (uh *userHandler) GetUsers(c *gin.Context) {
 }
 
 func (uh *userHandler) GetUser(c *gin.Context) {
-	userId, err := strconv.ParseUint(c.Param("user_id"), 10, 64)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
-		return
-	}
+	userId := strings.TrimSpace(c.Param("user_id"))
 	user, err := uh.ua.GetUser(userId)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, err.Error())
+		c.JSON(err.Status(), err)
 		return
 	}
 	c.JSON(http.StatusOK, user)

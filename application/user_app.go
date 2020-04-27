@@ -17,7 +17,7 @@ var _ UserAppInterface = &userApp{}
 type UserAppInterface interface {
 SaveUser(*entity.User) (*entity.User, go_errors.RestErr)
 GetUsers() ([]entity.User, go_errors.RestErr)
-GetUser(uint64) (*entity.User, go_errors.RestErr)
+GetUser(string) (*entity.User, go_errors.RestErr)
 GetUserByEmailAndPassword(*entity.User) (*entity.User, go_errors.RestErr)
 }
 //type UserAppInterface repository.UserRepositoryInterface
@@ -33,7 +33,7 @@ func (u *userApp) SaveUser(user *entity.User) (*entity.User, go_errors.RestErr) 
 	return u.us.SaveUser(user)
 }
 
-func (u *userApp) GetUser(userId uint64) (*entity.User, go_errors.RestErr) {
+func (u *userApp) GetUser(userId string) (*entity.User, go_errors.RestErr) {
 	return u.us.GetUser(userId)
 }
 
